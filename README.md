@@ -1,59 +1,60 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+**ArtisanBlog** is a robust, full-stack content publishing platform, inspired by popular sites like Medium. Built entirely with **Laravel**, it serves as a showcase of modern web development practices, focusing on performance, scalability, and clean architecture.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### ✨ Key Features
 
-## About Laravel
+* **User Authentication:** Complete registration, login, and profile management using Laravel Breeze/Jetstream.
+* **Article Management:** Users can create, edit, and publish rich-text articles (using a library like Trix or TinyMCE).
+* **Categories & Tags:** Comprehensive taxonomy system for organizing and filtering content.
+* **Reading List/Bookmarks:** Functionality to save articles for later reading.
+* **Likes/Claps & Comments:** Interactive features to drive user engagement.
+* **Follow System:** Users can follow other authors to see their latest publications.
+* **API Ready:** Built with future API expansion in mind.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 🛠️ Technology Stack
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+This project leverages the following technologies:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Technology | Purpose                                        |
+| :--- |:-----------------------------------------------|
+| **Backend Framework** | Laravel $12.x$ (PHP)                           |
+| **Database** | MySQL                                          |
+| **Frontend Stack** | Blade Templates / Breeze                       |
+| **Styling** | Tailwind CSS $3.x$                             |
+| **Queue/Jobs** | Redis / Database Queues for asynchronous tasks |
 
-## Learning Laravel
+### ⚙️ Installation and Setup
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Follow these steps to get a local copy up and running:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1.  Clone the repository:
+    ```bash
+    git clone [https://github.com/YourUsername/Laravel-Publishing-Platform.git](https://github.com/YourUsername/Laravel-Publishing-Platform.git)
+    cd Laravel-Publishing-Platform
+    ```
+2.  Install PHP dependencies:
+    ```bash
+    composer install
+    ```
+3.  Install NPM dependencies:
+    ```bash
+    npm install && npm run dev
+    ```
+4.  Configure Environment:
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
+    (Update your database credentials in the `.env` file.)
+5.  Run Migrations and Seed Database:
+    ```bash
+    php artisan migrate --seed
+    ```
+6.  Start the application:
+    ```bash
+    php artisan serve
+    ```
+    The application will be accessible at `http://127.0.0.1:8000`.
 
-## Laravel Sponsors
+### 🤝 Contributing
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Contributions are welcome! Please feel free to submit a pull request or open an issue if you find a bug.
