@@ -25,7 +25,7 @@ class PostFactory extends Factory
             'content' => fake()->paragraph(5),
             'image' => fake()->imageUrl(),
             'slug' => Str::slug($title),
-            'category_id' => Category::inRandomOrder()->first()->id,
+            'category_id' => Category::query()->inRandomOrder()->first()->id,
             'user_id' => 1,
             'published_at' => fake()->optional()->dateTime()
         ];

@@ -1,15 +1,20 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+    <div class="py-4">
+        <div class="max-w-5xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <x-posts.category-tabs>
+                No Category
+            </x-posts.category-tabs>
+            <div class="p-4 ">
+                @forelse($posts as $post)
+                    <x-posts.post-item :post="$post"/>
+                @empty
+                    <div class="text-center text-gray-600 py-6">
+                        No posts Found
+                    </div>
+                @endforelse
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
+                <div class="mt-8">
+                    {{ $posts->onEachSide(1)->links() }}
                 </div>
             </div>
         </div>
