@@ -16,7 +16,7 @@
             @endforeach
         @else
             <li class="me-2 inline-block px-4 py-3 rounded-lg ">
-                    {{$slot}}
+                {{$slot}}
             </li>
         @endif
     </ul>

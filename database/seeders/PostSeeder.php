@@ -13,22 +13,6 @@ class PostSeeder extends Seeder
      */
     public function run(): void
     {
-        $categories = [
-            'Technology',
-            'Sport',
-            'Science',
-            'Music',
-            'Entertainment',
-            'Fashion',
-            'Politics',
-        ];
-
-        foreach ($categories as $category) {
-            Category::query()->create([
-                'name' => $category,
-            ]);
-        }
-
         Post::factory(100)->create();
     }
 }

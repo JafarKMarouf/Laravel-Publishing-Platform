@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Post\StorePostRequest;
 use App\Models\Category;
 use App\Models\Post;
+use App\Services\PostService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class PostController extends Controller
 {
+    public function __construct(private readonly PostService $postService)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -17,7 +24,7 @@ class PostController extends Controller
         $posts = Post::query()
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
-        return view('dashboard', [
+        return view('post.index', [
             'posts' => $posts
         ]);
     }
@@ -27,23 +34,30 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('post.create', [
+            'categories' => $categories
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePostRequest $request): RedirectResponse
     {
-        //
+        $this->postService->create($request);
+        return redirect()
+            ->route('dashboard')
+            ->with('success', 'Post created successfully!');;
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show($slug)
     {
-        //
+        $post = Post::query()->where('slug', $slug)->firstOrFail();
+        return view('post.show', ['post' => $post]);
     }
 
     /**
