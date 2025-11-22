@@ -48,7 +48,7 @@ class PostController extends Controller
         $this->postService->create($request);
         return redirect()
             ->route('dashboard')
-            ->with('success', 'Post created successfully!');;
+            ->with('status', 'Post created successfully!');;
     }
 
     /**

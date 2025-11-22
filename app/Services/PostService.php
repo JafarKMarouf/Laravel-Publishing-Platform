@@ -21,7 +21,5 @@ class PostService
         $data['image'] = $imagePath;
 
         Post::query()->create($data);
-
-
     }
 }

@@ -17,8 +17,6 @@
                         <x-input-error :messages="$errors->get('image')"
                                        class="mt-2"/>
                     </div>
-
-
                     <!-- Title -->
                     <div class="mt-4">
                         <x-input-label for="title" :value="__('Title')"/>
