@@ -22,21 +22,7 @@
         <div class="flex flex-col items-start">
             <label for="image" class="cursor-pointer group relative">
                 <div class="relative ">
-                    @if($user->image)
-                        <img
-                            src="{{ \Illuminate\Support\Facades\Storage::url($user->image) }}"
-                            alt="{{ $user->name }}'s profile picture"
-                            class="w-40 h-40 rounded-full object-cover
-                            shadow-xl transition duration-300"
-                        >
-                    @else
-                        <x-letter-avatar
-                            :name="$user->name"
-                            size="80px"
-                            class="shadow-xl transition duration-300"
-                        />
-                    @endif
-
+                    <x-user-avatar :user="$user" size="w-24 h-24" />
                     <div
                         class="absolute inset-0 rounded-full bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
                         <svg xmlns="http://www.w3.org/2000/svg"

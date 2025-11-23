@@ -14,7 +14,7 @@ class PostService
         unset($data['image']);
 
         $data['user_id'] = auth()->user()->id;
-        $randomSuffix = Str::random(16);
+        $randomSuffix = Str::random(6);
         $data['slug'] = Str::slug($data['title']) . '-' . $randomSuffix;
 
         $imagePath = $image->store('posts', 'public');

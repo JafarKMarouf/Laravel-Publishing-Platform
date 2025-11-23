@@ -23,7 +23,7 @@ class PostFactory extends Factory
         return [
             'title' => $title,
             'content' => fake()->paragraph(5),
-            'image' => fake()->imageUrl(),
+            'image' => 'posts/69TE3F5gI1K8gHh1vmNhkG07oVdqmkNHMTkvBfXx.png',
             'slug' => Str::slug($title),
             'category_id' => Category::query()->inRandomOrder()->first()->id,
             'user_id' => 1,
