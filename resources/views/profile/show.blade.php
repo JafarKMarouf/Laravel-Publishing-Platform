@@ -23,22 +23,32 @@
                             {{ $posts->onEachSide(1)->links() }}
                         </div>
                     </div>
-
-                    <div class="w-1/4 sticky top-20 border-l px-8">
+                    {{--         User Infos           --}}
+                    <x-follow-button :user="$user"
+                                     class="w-1/4 top-20 border-l px-10">
                         <x-user-avatar :user="$user" size="w-24 h-24"/>
                         <h1 class="mt-2">{{$user->name}}</h1>
-                        <p class="mt-2  text-gray-500">930 Followers</p>
+
+                        <p class="mt-2  text-gray-500">
+                            <span x-text="followersCount"></span> Followers
+                        </p>
 
                         <p class="mt-2 text-gray-500">{{$user->bio}}</p>
 
-                        <div class="mt-4">
-                            <x-primary-button
-                                class="rounded-2xl">
-                                Follow
-                            </x-primary-button>
-                        </div>
-                    </div>
-
+                        @if(auth()->user() &&  auth()->user()->id != $user->id)
+                            <div class="mt-4">
+                                <button
+                                    @click="follow()"
+                                    class="rounded-full px-5 py-2 text-white"
+                                    :class="isFollowing?  'bg-amber-600' :
+                                    'bg-green-600' "
+                                    x-text="isFollowing ? 'UnFollow' :
+                                    'Follow'"
+                                >
+                                </button>
+                            </div>
+                        @endif
+                    </x-follow-button>
                 </div>
             </div>
         </div>

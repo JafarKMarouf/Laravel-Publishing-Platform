@@ -15,25 +15,31 @@
                            class="hover:underline text-lg text-gray-700">
                             <h3> {{$post->user->username}}</h3>
                         </a>
-                        <span class="text-gray-400 ">&middot;</span>
-                        <a href="#"
-                           class="text-green-600 text-lg hover:text-green-700
-                           font-medium">
-                            Follow
-                        </a>
+                        @if(auth()->user() && auth()->user()->id != $post->user->id)
+                            <span>&middot;</span>
+                            <x-follow-button :user="$post->user">
+                                <button
+                                    @click="follow()"
+                                    class="text-lg font-medium"
+                                    :class="isFollowing ? 'text-amber-600': 'text-green-600' "
+                                    x-text="isFollowing ? 'UnFollow' : 'Follow'"
+                                >
+                                </button>
+                            </x-follow-button>
+                        @endif
                     </div>
                     <div
                         class="flex items-center gap-2 text-sm text-gray-500">
                         <span>{{$post->readTime()}} min read</span>
                         <span>&middot;</span>
                         <span>{{$post->created_at->format('M j, Y')
-                            }}</span>
+                                            }}</span>
                     </div>
                 </div>
             </div>
+
             {{--         Clap Section            --}}
             <x-clap-section/>
-            {{--         Clap Section            --}}
 
             {{--         Content Section            --}}
             <div class="mt-8 w-full mx-auto">
@@ -47,7 +53,6 @@
                     {!! $post->content !!}
                 </div>
             </div>
-            {{--         Content Section            --}}
 
             {{--         Category Section            --}}
             <div class="mt-4">
@@ -56,11 +61,9 @@
                     {{$post->category->name}}
                 </button>
             </div>
-            {{--         Category Section            --}}
 
             {{--         Clap Section            --}}
             <x-clap-section/>
-            {{--         Clap Section            --}}
         </div>
     </div>
 </x-app-layout>

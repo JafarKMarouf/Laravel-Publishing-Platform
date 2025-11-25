@@ -1,27 +1,30 @@
 <?php
 
+use App\Http\Controllers\FollowController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+// public routes
+Route::controller(PostController::class)->group(function () {
+    Route::get('/', 'index')
+        ->name('dashboard');
+    Route::get('/@{username}/{post:slug}', 'show')
+        ->name('post.show');
 });
 
+Route::get('/@{user:username}', [PublicProfileController::class, 'show'])
+    ->name('profile.show');
+
+// protected routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::controller(PostController::class)->group(function () {
-        Route::get('/', 'index')->name('dashboard');
         Route::get('/post/create', 'create')->name('post.create');
         Route::post('/post/create', 'store')->name('post.store');
-        Route::get('/@{username}/{post:slug}', 'show')->name('post.show');
     });
+    Route::post('/follow/{user}', [FollowController::class, 'followUnFollow'])->name('follow');
 });
-
-Route::controller(PublicProfileController::class)
-    ->group(function () {
-        Route::get('/@{user:username}', 'show')->name('profile.show');
-    });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

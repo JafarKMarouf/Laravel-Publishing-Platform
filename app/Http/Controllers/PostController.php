@@ -6,6 +6,7 @@ use App\Http\Requests\Post\StorePostRequest;
 use App\Models\Category;
 use App\Models\Post;
 use App\Services\PostService;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -32,7 +33,7 @@ class PostController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Factory|\Illuminate\Contracts\View\View|View
     {
         $categories = Category::all();
         return view('post.create', [
