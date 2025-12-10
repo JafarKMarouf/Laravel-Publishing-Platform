@@ -32,15 +32,15 @@
                         class="flex items-center gap-2 text-sm text-gray-500">
                         <span>{{$post->readTime()}} min read</span>
                         <span>&middot;</span>
-                        <span>{{$post->created_at->format('M j, Y')
-                                            }}</span>
+                        <span>{{$post->created_at->format('M j, Y')}}</span>
                     </div>
                 </div>
             </div>
 
             {{--         Clap Section            --}}
-            <x-clap-section/>
-
+            @if(auth()->user() )
+                <x-interactive-section :post="$post"/>
+            @endif
             {{--         Content Section            --}}
             <div class="mt-8 w-full mx-auto">
                 <div class="w-full flex justify-center my-8">
@@ -53,7 +53,6 @@
                     {!! $post->content !!}
                 </div>
             </div>
-
             {{--         Category Section            --}}
             <div class="mt-4">
                 <button class="rounded-2xl px-4 py-2 bg-gray-300
@@ -63,7 +62,9 @@
             </div>
 
             {{--         Clap Section            --}}
-            <x-clap-section/>
+            @if(auth()->user())
+                <x-interactive-section :post="$post"/>
+            @endif
         </div>
     </div>
 </x-app-layout>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClapController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
@@ -24,6 +25,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/post/create', 'store')->name('post.store');
     });
     Route::post('/follow/{user}', [FollowController::class, 'followUnFollow'])->name('follow');
+    Route::post('/clap/{post}', [ClapController::class, 'clap'])
+        ->name('clap');
 });
 
 Route::middleware('auth')->group(function () {

@@ -99,6 +99,15 @@ class User extends Authenticatable
     }
 
     /**
+     * @param Post $post
+     * @return bool
+     */
+    public function hasClap(Post $post): bool
+    {
+        return $post->claps()->where('user_id', $this->id)->exists();
+    }
+
+    /**
      * @param $id
      * @return bool
      */
