@@ -15,18 +15,21 @@
                            class="hover:underline text-lg text-gray-700">
                             <h3> {{$post->user->username}}</h3>
                         </a>
-                        @if(auth()->user() && auth()->user()->id != $post->user->id)
-                            <span>&middot;</span>
-                            <x-follow-button :user="$post->user">
-                                <button
-                                    @click="follow()"
-                                    class="text-lg font-medium"
-                                    :class="isFollowing ? 'text-amber-600': 'text-green-600' "
-                                    x-text="isFollowing ? 'UnFollow' : 'Follow'"
-                                >
-                                </button>
-                            </x-follow-button>
-                        @endif
+                        @auth
+                            @if(auth()->user()->id != $post->user->id)
+                                <span>&middot;</span>
+                                <x-posts.follow-button :user="$post->user">
+                                    <button
+                                        @click="follow()"
+                                        class="text-lg font-medium"
+                                        :class="isFollowing ? 'text-amber-600': 'text-green-600' "
+                                        x-text="isFollowing ? 'UnFollow' : 'Follow'"
+                                    >
+                                    </button>
+                                </x-posts.follow-button>
+                            @endif
+                        @endauth
+
                     </div>
                     <div
                         class="flex items-center gap-2 text-sm text-gray-500">
@@ -38,9 +41,8 @@
             </div>
 
             {{--         Clap Section            --}}
-            @if(auth()->user() )
-                <x-interactive-section :post="$post"/>
-            @endif
+            <x-posts.interactive-post-section :post="$post"/>
+
             {{--         Content Section            --}}
             <div class="mt-8 w-full mx-auto">
                 <div class="w-full flex justify-center my-8">
@@ -49,7 +51,7 @@
                          class="w-3/4 h-auto object-cover rounded shadow-md"/>
                 </div>
                 <div
-                    class="mb-10 text-lg leading-relaxed text-gray-800 font-serif">
+                    class="w-3/4 mx-auto mb-10 text-lg leading-relaxed text-gray-800 font-serif">
                     {!! $post->content !!}
                 </div>
             </div>
@@ -62,9 +64,7 @@
             </div>
 
             {{--         Clap Section            --}}
-            @if(auth()->user())
-                <x-interactive-section :post="$post"/>
-            @endif
+            <x-posts.interactive-post-section :post="$post"/>
         </div>
     </div>
 </x-app-layout>

@@ -24,6 +24,7 @@
                     <span class="mr-3">
                         <x-posts.clap-button :post="$post"/>
                     </span>
+
                     {{--       Respond             --}}
                     <button
                         class="flex items-center gap-2 mr-4

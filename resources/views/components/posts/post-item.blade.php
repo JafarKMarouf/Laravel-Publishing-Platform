@@ -1,4 +1,3 @@
-@php @endphp
 <div class="flex flex-col sm:flex-row bg-white border border-gray-200
 rounded-lg shadow-sm mb-6">
     <div class="py-8 flex flex-col px-4 flex-1">

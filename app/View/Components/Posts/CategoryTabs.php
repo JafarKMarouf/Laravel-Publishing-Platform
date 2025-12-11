@@ -22,7 +22,7 @@ class CategoryTabs extends Component
      */
     public function render(): View|Closure|string
     {
-        $categories = Category::all();
+        $categories = Category::has('posts')->get();
         return view('components.posts.category-tabs', ['categories' => $categories]);
     }
 }

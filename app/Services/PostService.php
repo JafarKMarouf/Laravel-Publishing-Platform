@@ -7,6 +7,11 @@ use Illuminate\Support\Str;
 
 class PostService
 {
+
+    /**
+     * @param $request
+     * @return void
+     */
     public function create($request): void
     {
         $data = $request->validated();

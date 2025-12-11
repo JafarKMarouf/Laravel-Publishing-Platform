@@ -22,9 +22,36 @@ class PostController extends Controller
      */
     public function index(): View
     {
-        $posts = Post::query()
-            ->orderBy('created_at', 'DESC')
-            ->paginate(10);
+        $user = auth()->user();
+
+        $query = Post::select(['title', 'slug', 'content', 'user_id', 'created_at', 'image'])
+            ->with('user')
+            ->latest();
+
+        if ($user) {
+            $ids = $user->following()->pluck('users.id');
+            $query->whereIn('user_id', $ids);
+        }
+
+        $posts = $query->paginate(5);
+        return view('post.index', [
+            'posts' => $posts
+        ]);
+    }
+
+    public function filterByCategory(Category $category): View
+    {
+        $user = auth()->user();
+        $query = Post::select(['title', 'slug', 'content', 'user_id', 'created_at', 'image'])
+            ->with('user')
+            ->latest();
+
+        if ($user) {
+            $ids = $user->following()->pluck('users.id');
+            $query->whereIn('user_id', $ids);
+        }
+        $posts = $query->where('category_id', $category->id)
+            ->paginate(5);
         return view('post.index', [
             'posts' => $posts
         ]);
@@ -32,6 +59,7 @@ class PostController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     * @return Factory|\Illuminate\Contracts\View\View|View
      */
     public function create(): Factory|\Illuminate\Contracts\View\View|View
     {

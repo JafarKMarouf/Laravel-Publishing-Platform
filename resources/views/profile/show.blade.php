@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     {{--         User Infos           --}}
-                    <x-follow-button :user="$user"
+                    <x-posts.follow-button :user="$user"
                                      class="w-1/4 top-20 border-l px-10">
                         <x-user-avatar :user="$user" size="w-24 h-24"/>
                         <h1 class="mt-2">{{$user->name}}</h1>
@@ -48,7 +48,7 @@
                                 </button>
                             </div>
                         @endif
-                    </x-follow-button>
+                    </x-posts.follow-button>
                 </div>
             </div>
         </div>
