@@ -3,6 +3,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="flex">
+
+                    {{--        User Posts            --}}
                     <div class="flex-1 px-8">
                         <div class="justify-between items-center">
                             <h1 class="text-4xl font-bold">{{$user->name}}</h1>
@@ -25,7 +27,7 @@
                     </div>
                     {{--         User Infos           --}}
                     <x-posts.follow-button :user="$user"
-                                     class="w-1/4 top-20 border-l px-10">
+                                           class="w-1/4 top-20 border-l px-10">
                         <x-user-avatar :user="$user" size="w-24 h-24"/>
                         <h1 class="mt-2">{{$user->name}}</h1>
 

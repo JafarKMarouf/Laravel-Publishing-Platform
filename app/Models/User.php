@@ -9,12 +9,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -26,9 +28,29 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'image',
         'bio'
     ];
+
+    /**
+     * @param Media|null $media
+     * @return void
+     */
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('avatar')
+            ->width(128)
+            ->crop(128, 128)
+            ->nonQueued();
+    }
+
+    /**
+     * @return void
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('users')
+            ->singleFile();
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -58,10 +80,9 @@ class User extends Authenticatable
      */
     public function imageUrl(): ?string
     {
-        if ($this->image) {
-            return Storage::url($this->image);
-        }
-        return null;
+
+        return $this->getFirstMedia('users')
+            ->getUrl('avatar');
     }
 
     /**

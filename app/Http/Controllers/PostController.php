@@ -22,16 +22,7 @@ class PostController extends Controller
      */
     public function index(): View
     {
-        $user = auth()->user();
-
-        $query = Post::select(['title', 'slug', 'content', 'user_id', 'created_at', 'image'])
-            ->with('user')
-            ->latest();
-
-        if ($user) {
-            $ids = $user->following()->pluck('users.id');
-            $query->whereIn('user_id', $ids);
-        }
+        $query = $this->postService->getLatest();
 
         $posts = $query->paginate(5);
         return view('post.index', [
@@ -41,15 +32,7 @@ class PostController extends Controller
 
     public function filterByCategory(Category $category): View
     {
-        $user = auth()->user();
-        $query = Post::select(['title', 'slug', 'content', 'user_id', 'created_at', 'image'])
-            ->with('user')
-            ->latest();
-
-        if ($user) {
-            $ids = $user->following()->pluck('users.id');
-            $query->whereIn('user_id', $ids);
-        }
+        $query = $this->postService->getLatest();
         $posts = $query->where('category_id', $category->id)
             ->paginate(5);
         return view('post.index', [
@@ -77,7 +60,7 @@ class PostController extends Controller
         $this->postService->create($request);
         return redirect()
             ->route('dashboard')
-            ->with('status', 'Post created successfully!');;
+            ->with('status', 'Post created successfully!');
     }
 
     /**
@@ -111,4 +94,6 @@ class PostController extends Controller
     {
         //
     }
+
+
 }

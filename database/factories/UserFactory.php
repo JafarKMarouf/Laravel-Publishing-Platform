@@ -40,8 +40,22 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    public function configure(): UserFactory|Factory
+    {
+        return $this->afterCreating(function (User $user) {
+            $imageUrl = 'http://127.0.0.1:8000/storage/2/FExR3RYDXXNonCP5wurmciN8nv8jpmEuPnDftk5T.jpg';
+            try {
+                $user->addMediaFromUrl($imageUrl)
+                    ->toMediaCollection('users');
+            } catch (\Exception $e) {
+                dump("Could not add media for user ID: " . $user->id . ". Error: "
+                    . $e->getMessage());
+            }
+        });
     }
 }

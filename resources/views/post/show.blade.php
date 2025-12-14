@@ -44,14 +44,17 @@
             <x-posts.interactive-post-section :post="$post"/>
 
             {{--         Content Section            --}}
-            <div class="mt-8 w-full mx-auto">
-                <div class="w-full flex justify-center my-8">
-                    <img src="{{ $post->imageUrl() }}"
-                         alt="{{ $post->title }}"
-                         class="w-3/4 h-auto object-cover rounded shadow-md"/>
+            <div class="mt-8 w-full justify-center">
+                <div class="w-3/4 mx-auto my-8 justify-center">
+                    <a href="{{$post->imageUrl(true)}}" target="_blank">
+                        <img src="{{ $post->imageUrl(true) }}"
+                             alt="{{ $post->title }}"
+                             class="w-3/4 h-auto object-cover rounded shadow-md"/>
+                    </a>
                 </div>
                 <div
-                    class="w-3/4 mx-auto mb-10 text-lg leading-relaxed text-gray-800 font-serif">
+                    class="w-3/4 mx-auto mb-10 text-lg leading-relaxed
+                    text-gray-800 font-serif">
                     {!! $post->content !!}
                 </div>
             </div>

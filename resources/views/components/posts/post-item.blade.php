@@ -1,3 +1,7 @@
+@php
+    use App\Models\Post;
+    $media =  Post::query()->find($post->id)
+@endphp
 <div class="flex flex-col sm:flex-row bg-white border border-gray-200
 rounded-lg shadow-sm mb-6">
     <div class="py-8 flex flex-col px-4 flex-1">
@@ -12,7 +16,7 @@ rounded-lg shadow-sm mb-6">
             {{ Str::words($post->content, 20) }}
         </p>
         <a href="{{route('post.show', ["username" => $post->user->username,
-        "post" =>$post->slug])}}" class=" mt-auto">
+        "post" =>$post->slug])}}" class="mt-auto">
             <x-primary-button>
                 Read more
                 <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
@@ -31,7 +35,7 @@ rounded-lg shadow-sm mb-6">
     <a href="{{route('post.show', ["username" => $post->user->username, "post" =>$post->slug])}}"
        rel="noopener noreferrer">
         <img class="rounded-r-lg w-48 h-full max-h-80 object-cover"
-             src="{{$post->imageUrl()}}"
+             src="{{$media->imageUrl()}}"
              alt="{{$post->title}}"/>
     </a>
 </div>

@@ -2,17 +2,17 @@
 
 namespace App\Models;
 
-use Database\Factories\PostFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Post extends Model
+class Post extends Model implements HasMedia
 {
-    /** @use HasFactory<PostFactory> */
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
         'category_id',
@@ -20,9 +20,22 @@ class Post extends Model
         'title',
         'content',
         'slug',
-        'image',
         'published_at'
     ];
+
+    /**
+     * @param Media|null $media
+     * @return void
+     */
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('preview')
+            ->width(300)
+            ->nonQueued();
+        $this->addMediaConversion('large')
+            ->width(1200)
+            ->nonQueued();
+    }
 
     /**
      * @return BelongsTo
@@ -48,16 +61,15 @@ class Post extends Model
         return $this->hasMany(Clap::class);
     }
 
+
     /**
+     * @param false $preview
      * @return string|null
      */
-    public function imageUrl(): ?string
+    public function imageUrl(bool $preview = false): ?string
     {
-
-        if ($this->image) {
-            return Storage::url($this->image);
-        }
-        return null;
+        return $this->getFirstMedia('posts')
+            ->getUrl($preview ? 'large' : 'preview');
     }
 
     /**

@@ -1,7 +1,7 @@
 @props(['user', 'size' => 'w-16 h-16'])
 
 <div class="flex-shrink-0">
-    @if($user->image)
+    @if($user->imageUrl())
         <img
             src="{{ $user->imageUrl() }}"
             alt="{{ $user->username }}'s profile
