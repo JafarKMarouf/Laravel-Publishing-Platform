@@ -9,7 +9,11 @@ use App\Services\PostService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 
 class PostController extends Controller
 {
@@ -23,13 +27,16 @@ class PostController extends Controller
     public function index(): View
     {
         $query = $this->postService->getLatest();
-
         $posts = $query->paginate(5);
         return view('post.index', [
             'posts' => $posts
         ]);
     }
 
+    /**
+     * @param Category $category
+     * @return View
+     */
     public function filterByCategory(Category $category): View
     {
         $query = $this->postService->getLatest();
@@ -42,9 +49,9 @@ class PostController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     * @return Factory|\Illuminate\Contracts\View\View|View
+     * @return Factory|View
      */
-    public function create(): Factory|\Illuminate\Contracts\View\View|View
+    public function create(): Factory|View
     {
         $categories = Category::all();
         return view('post.create', [
@@ -53,11 +60,14 @@ class PostController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @param StorePostRequest $request
+     * @return RedirectResponse
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig
      */
     public function store(StorePostRequest $request): RedirectResponse
     {
-        $this->postService->create($request);
+        $this->postService->createPost($request);
         return redirect()
             ->route('dashboard')
             ->with('status', 'Post created successfully!');
@@ -68,7 +78,20 @@ class PostController extends Controller
      */
     public function show(string $username, Post $post): View
     {
-        return view('post.show', ['post' => $post]);
+        $data = $this->postService->getPostDetail($post->id);
+        return view('post.show', ['post' => $data]);
+    }
+
+    public function myPosts(): View
+    {
+        $posts = $this->postService
+            ->myPosts()
+            ->paginate(5);
+
+        return view('post.my_posts', [
+            'posts' => $posts,
+            'user' => $posts->first()->user
+        ]);
     }
 
     /**

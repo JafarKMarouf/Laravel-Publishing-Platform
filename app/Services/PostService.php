@@ -3,7 +3,11 @@
 namespace App\Services;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
@@ -17,7 +21,7 @@ class PostService
      * @throws FileDoesNotExist
      * @throws FileIsTooBig
      */
-    public function create($request): void
+    public function createPost($request): void
     {
         $data = $request->validated();
 
@@ -40,15 +44,46 @@ class PostService
     public function getLatest(): Post|Builder
     {
         $user = auth()->user();
-        $query = Post::select(['id','title', 'slug', 'content', 'user_id', 'created_at'])
-            ->with('user')
+        $query = Post::select(['id', 'title', 'slug', 'content', 'user_id', 'created_at'])
+            ->with(['user', 'media'])
+            ->withCount('claps')
             ->latest();
 
         if ($user) {
             $ids = $user->following()->pluck('users.id');
-            $idsToShow = $ids->prepend($user->id)->unique();
-            $query->whereIn('user_id', $idsToShow);
+            $query->whereIn('user_id', $ids);
         }
         return $query;
+    }
+
+    /**
+     * @param int $postId
+     * @return Post|Collection|Model|null
+     */
+    public function getPostDetail(int $postId): Post|Collection|Model|null
+    {
+        return Post::select(['id', 'title', 'slug', 'content', 'user_id', 'category_id', 'created_at'])
+            ->with([
+                'media',
+                'category:id,name,slug',
+            ])
+            ->withCount('claps')
+            ->findOrFail($postId);
+    }
+
+
+    /**
+     * @return User|Builder|HasMany
+     */
+    public function myPosts(): User|Builder|HasMany
+    {
+        $user = auth()->user();
+        return $user->posts()
+            ->with([
+                'user',
+                'media',
+            ])
+            ->withCount('claps')
+            ->latest();
     }
 }

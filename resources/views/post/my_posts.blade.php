@@ -3,11 +3,11 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="flex">
-
                     {{--        User Posts            --}}
                     <div class="flex-1 px-8">
                         <div class="justify-between items-center">
-                            <h1 class="text-4xl font-bold">{{$user->name}}</h1>
+                            <h1 class="text-4xl
+                            font-bold">{{$user->name}}</h1>
                         </div>
 
                         <div class="mt-8 border-b border-gray-300">
@@ -26,7 +26,7 @@
                         </div>
                     </div>
 
-                    {{--         User Infos           --}}
+                    {{--          User Infos           --}}
                     <x-posts.follow-button :user="$user"
                                            class="w-1/4 top-20 border-l px-10">
                         <x-user-avatar :user="$user" size="w-24 h-24"/>
@@ -37,20 +37,6 @@
                         </p>
 
                         <p class="mt-2 text-gray-500">{{$user->bio}}</p>
-
-                        @if(auth()->user() &&  auth()->user()->id != $user->id)
-                            <div class="mt-4">
-                                <button
-                                    @click="follow()"
-                                    class="rounded-full px-5 py-2 text-white"
-                                    :class="isFollowing?  'bg-amber-600' :
-                                    'bg-green-600' "
-                                    x-text="isFollowing ? 'UnFollow' :
-                                    'Follow'"
-                                >
-                                </button>
-                            </div>
-                        @endif
                     </x-posts.follow-button>
                 </div>
             </div>

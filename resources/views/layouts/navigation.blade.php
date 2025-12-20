@@ -51,6 +51,9 @@
                                 <x-dropdown-link :href="route('profile.edit')">
                                     {{ __('Profile') }}
                                 </x-dropdown-link>
+                                <x-dropdown-link :href="route('post.me')">
+                                    {{ __('My Posts') }}
+                                </x-dropdown-link>
 
                                 <!-- Authentication -->
                                 <form method="POST"

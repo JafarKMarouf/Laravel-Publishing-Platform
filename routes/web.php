@@ -28,6 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::controller(PostController::class)->group(function () {
         Route::get('/post/create', 'create')->name('post.create');
         Route::post('/post/create', 'store')->name('post.store');
+        Route::get('/post/me', 'myPosts')->name('post.me');
     });
     Route::post('/follow/{user}', [FollowController::class, 'followUnFollow'])
         ->name('follow');

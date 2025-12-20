@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -80,9 +79,11 @@ class User extends Authenticatable implements HasMedia
      */
     public function imageUrl(): ?string
     {
-
-        return $this->getFirstMedia('users')
-            ->getUrl('avatar');
+        $media = $this->getFirstMedia('users');
+        if ($media->hasGeneratedConversion('avatar')) {
+            return $media->getUrl('avatar');
+        }
+        return $media->getUrl();
     }
 
     /**

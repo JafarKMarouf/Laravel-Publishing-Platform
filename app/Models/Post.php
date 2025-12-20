@@ -63,13 +63,16 @@ class Post extends Model implements HasMedia
 
 
     /**
-     * @param false $preview
+     * @param bool $preview
      * @return string|null
      */
     public function imageUrl(bool $preview = false): ?string
     {
-        return $this->getFirstMedia('posts')
-            ->getUrl($preview ? 'large' : 'preview');
+        $media = $this->getFirstMedia('posts');
+        if ($media->hasGeneratedConversion($preview ? 'large' : 'preview')) {
+            return $media->getUrl($preview ? 'large' : 'preview');
+        }
+        return $media->getUrl();
     }
 
     /**
