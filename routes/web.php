@@ -29,6 +29,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/post/create', 'create')->name('post.create');
         Route::post('/post/create', 'store')->name('post.store');
         Route::get('/post/me', 'myPosts')->name('post.me');
+        Route::get('post/edit/{post:slug}', 'edit')->name('post.edit');
+        Route::patch('post/update/{post:slug}', 'update')->name('post.update');
+        Route::delete('post/delete/{post:slug}', 'destroy')->name('post.delete');
     });
     Route::post('/follow/{user}', [FollowController::class, 'followUnFollow'])
         ->name('follow');
@@ -44,3 +47,6 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+Route::get('/4mGaGvbrXi9KZ2Nm0YIOOrZlI5YEXeyVCLE6SYzW',function(){
+    return 'KEEP ALIVE';
+});

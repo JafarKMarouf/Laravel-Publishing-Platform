@@ -1,6 +1,31 @@
 <x-app-layout>
     <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            @if (session('update'))
+                <div class="mb-3 bg-green-100 border border-green-400
+                        text-green-700 px-4 py-3 rounded relative"
+                     x-data="{ show: true }"
+                     x-show="show"
+                     x-transition
+                     x-init="setTimeout(() => show = false, 2000)">
+                    <strong class="block sm:inline">
+                        {{ session('update') }}
+                    </strong>
+                </div>
+            @endif
+
+            @if (session('delete'))
+                <div class="mb-3 bg-red-100 border border-red-400
+                        text-red-700 px-4 py-3 rounded relative"
+                     x-data="{ show: true }"
+                     x-show="show"
+                     x-transition
+                     x-init="setTimeout(() => show = false, 2000)">
+                    <strong class="block sm:inline">
+                        {{ session('delete') }}
+                    </strong>
+                </div>
+            @endif
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="flex">
                     {{--        User Posts            --}}

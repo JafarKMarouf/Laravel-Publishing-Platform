@@ -38,8 +38,7 @@ class User extends Authenticatable implements HasMedia
     {
         $this->addMediaConversion('avatar')
             ->width(128)
-            ->crop(128, 128)
-            ->nonQueued();
+            ->crop(128, 128);
     }
 
     /**

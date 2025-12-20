@@ -30,11 +30,18 @@ class Post extends Model implements HasMedia
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('preview')
-            ->width(300)
-            ->nonQueued();
+            ->width(300);
         $this->addMediaConversion('large')
-            ->width(1200)
-            ->nonQueued();
+            ->width(1200);
+    }
+
+    /**
+     * @return void
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('posts')
+            ->singleFile();
     }
 
     /**

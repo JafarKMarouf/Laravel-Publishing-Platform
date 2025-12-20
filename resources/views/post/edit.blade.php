@@ -1,13 +1,23 @@
 <x-app-layout>
     <div class="py-4">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            <h1>Create new post</h1>
+            <h1 class="mb-4 items-center text-2xl">Edit post</h1>
             <div class="bg-white shadow-md overflow-hidden sm:rounded-lg p-4">
-                <form method="POST" action="{{ route('post.store') }}"
+                <form method="POST" action="{{ route('post.update', $post)
+                 }}"
                       enctype="multipart/form-data">
                     @csrf
+                    @method('PATCH')
                     <!-- Upload Image -->
                     <div class="mt-4">
+                        <div class="w-3/4 mx-auto my-8 justify-center">
+                            <a href="{{$post->imageUrl(true)}}"
+                               target="_blank">
+                                <img src="{{ $post->imageUrl(true) }}"
+                                     alt="{{ $post->title }}"
+                                     class="w-3/4 h-auto object-cover rounded shadow-md"/>
+                            </a>
+                        </div>
                         <x-input-label for="image"
                                        :value="__('Upload Image')"/>
                         <x-text-input id="image"
@@ -23,7 +33,7 @@
                         <x-input-label for="title" :value="__('Title')"/>
                         <x-text-input id="title" class="block mt-1 w-full"
                                       type="text" name="title"
-                                      :value="old('title')"
+                                      :value="old('title', $post->title)"
                                       autofocus/>
                         <x-input-error :messages="$errors->get('title')"
                                        class="mt-2"/>
@@ -43,7 +53,8 @@
                             @foreach($categories as $category)
                                 <option
                                     value="{{$category->id}}" @selected(old
-                                    ('category_id') == $category->id)
+                                    ('category_id', $category->id) ==
+                                    $category->id)
                                 >{{$category->name}}
                                 </option>
                             @endforeach
@@ -58,7 +69,8 @@
                         <x-input-textarea id="content"
                                           class="block mt-1 w-full"
                                           type="text" name="content"
-                                          autofocus>{{old('content')
+                                          autofocus>{{old('content',
+                                          $post->content)
                                           }}</x-input-textarea>
                         <x-input-error :messages="$errors->get('content')"
                                        class="mt-2"/>

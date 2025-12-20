@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Post\StorePostRequest;
+use App\Http\Requests\Post\UpdatePostRequest;
 use App\Models\Category;
 use App\Models\Post;
 use App\Services\PostService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
@@ -99,24 +97,37 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        $categories = Category::all();
+        return view('post.edit', [
+            'post' => $post,
+            'categories' => $categories
+        ]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * @param UpdatePostRequest $request
+     * @param Post $post
+     * @return RedirectResponse
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig
      */
-    public function update(Request $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post): RedirectResponse
     {
-        //
+        $this->postService->updatePost($request, $post->id);
+        return redirect()
+            ->route('post.me')
+            ->with('update', 'Post updated successfully!');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @param Post $post
+     * @return RedirectResponse
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post): RedirectResponse
     {
-        //
+        $this->postService->deletePost($post->id);
+        return redirect()
+            ->route('post.me')
+            ->with('delete', 'Post Delete successfully!');
     }
-
-
 }

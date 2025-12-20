@@ -86,4 +86,54 @@ class PostService
             ->withCount('claps')
             ->latest();
     }
+
+
+    /**
+     * @param $request
+     * @param int $postId
+     * @return void
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig
+     */
+    public function updatePost($request, int $postId): void
+    {
+        $this->checkAuthorized($postId);
+        $data = $request->validated();
+        $imageFile = $data['image'] ?? null;
+        unset($data['image']);
+
+        $post = Post::query()
+            ->findOrFail($postId);
+        $post->update($data);
+        if ($imageFile) {
+            $post->addMedia($imageFile)
+                ->preservingOriginal()
+                ->toMediaCollection('posts');
+        }
+    }
+
+    /**
+     * @param int $postId
+     * @return void
+     */
+    public function deletePost(int $postId): void
+    {
+        $this->checkAuthorized($postId);
+        $post = Post::query()
+            ->findOrFail($postId);
+        $post->media()->delete();
+        $post->claps()->delete();
+        $post->delete();
+    }
+
+    /**
+     * @param int $postId
+     * @return void
+     */
+    private function checkAuthorized(int $postId): void
+    {
+        $post = Post::query()
+            ->findOrFail($postId);
+        abort_if($post->user_id !== auth()->id(), 403);
+    }
 }
